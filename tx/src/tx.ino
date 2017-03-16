@@ -17,10 +17,6 @@
 
 RF24 radio(9,10);
 
-//
-// Topology
-//
-
 // Radio pipe addresses for the 2 nodes to communicate.
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL };
 
@@ -47,9 +43,7 @@ void setup(void)
   //
 
   radio.begin();
-
-  // enable dynamic payloads
-  // radio.enableDynamicPayloads();
+  radio.setPALevel(RF24_PA_HIGH);
 
   // optionally, increase the delay between retries & # of retries
   // radio.setRetries(5,15);
