@@ -43,7 +43,9 @@ void setup(void)
   //
 
   radio.begin();
-  radio.setPALevel(RF24_PA_HIGH);
+  radio.setDataRate(RF24_250KBPS);
+  radio.setPALevel(RF24_PA_MAX);
+  radio.setChannel(108);
 
   // optionally, increase the delay between retries & # of retries
   // radio.setRetries(5,15);
