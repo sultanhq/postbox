@@ -3,6 +3,12 @@
 #include <SPI.h>
 #include "nRF24L01.h"
 #include "RF24.h"
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define OLED_RESET 4
+Adafruit_SSD1306 display(OLED_RESET);
 
 RF24 radio(9,10);
 
@@ -13,6 +19,11 @@ int counter = 0;
 
 void setup(void)
 {
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  // display.display();
+  // delay(1000);
+  display.clearDisplay();
+
 
   Serial.begin(115200);
   Serial.println(F("Base Listening for post message"));
@@ -32,8 +43,20 @@ void setup(void)
 void loop(void)
 {
   pong_in();
+  print_count();
 }
 
+void print_count()
+
+{
+  display.clearDisplay();
+  display.setTextSize(4);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+  display.println(counter);
+  display.display();
+
+}
 void pong_in(void)
 {
 
