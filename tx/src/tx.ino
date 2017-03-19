@@ -11,19 +11,25 @@ char receive_payload[15];
 
 void setup(void)
 {
+  radio_setup();
+  serial_setup();
+}
+
+void serial_setup(void)
+{
   Serial.begin(115200);
   Serial.println(F("RF24 Postbox Transmitter"));
+}
 
+void radio_setup(void)
+{
   radio.begin();
   radio.setDataRate(RF24_250KBPS);
   radio.setPALevel(RF24_PA_MAX);
   radio.setChannel(108);
-
   radio.openWritingPipe(pipes[0]);
   radio.openReadingPipe(1,pipes[1]);
-
   radio.startListening();
-
 }
 
 void loop(void)

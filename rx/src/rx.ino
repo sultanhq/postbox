@@ -19,25 +19,32 @@ int counter = 0;
 
 void setup(void)
 {
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-  // display.display();
-  // delay(1000);
-  display.clearDisplay();
+  display_setup();
+  radio_setup();
+  serial_setup();
+}
 
-
+void serial_setup(void)
+{
   Serial.begin(115200);
   Serial.println(F("Base Listening for post message"));
+}
 
-  radio.begin();
-  radio.setDataRate(RF24_250KBPS);
-  radio.setPALevel(RF24_PA_MAX);
-  radio.setChannel(108);
+void display_setup(void)
+{
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  display.clearDisplay();
+}
 
-  radio.openWritingPipe(pipes[1]);
-  radio.openReadingPipe(1,pipes[0]);
-
-  radio.startListening();
-
+void radio_setup(void)
+{
+   radio.begin();
+   radio.setDataRate(RF24_250KBPS);
+   radio.setPALevel(RF24_PA_MAX);
+   radio.setChannel(108);
+   radio.openWritingPipe(pipes[1]);
+   radio.openReadingPipe(1,pipes[0]);
+   radio.startListening();
 }
 
 void loop(void)
@@ -47,7 +54,6 @@ void loop(void)
 }
 
 void print_count()
-
 {
   display.clearDisplay();
   display.setTextSize(4);
@@ -55,17 +61,15 @@ void print_count()
   display.setCursor(0,0);
   display.println(counter);
   display.display();
-
 }
+
 void pong_in(void)
 {
-
   while ( radio.available() )
   {
-
     radio.read( receive_payload, 4 );
 
-    Serial.print(counter);
+    tideSerial.print(counter);
     Serial.print(F(" Got message from postbox..."));
     Serial.println(receive_payload);
     counter ++;
