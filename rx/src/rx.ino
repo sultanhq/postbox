@@ -69,7 +69,7 @@ void pong_in(void)
   {
     radio.read( receive_payload, 4 );
 
-    tideSerial.print(counter);
+    Serial.print(counter);
     Serial.print(F(" Got message from postbox..."));
     Serial.println(receive_payload);
     counter ++;
